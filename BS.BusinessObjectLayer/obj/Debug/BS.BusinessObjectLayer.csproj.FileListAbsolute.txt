@@ -1,0 +1,11 @@
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\bin\Debug\BS.BusinessObjectLayer.dll.config
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\bin\Debug\BS.BusinessObjectLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\bin\Debug\BS.BusinessObjectLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\bin\Debug\EntityFramework.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\bin\Debug\EntityFramework.SqlServer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\bin\Debug\EntityFramework.xml
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\bin\Debug\EntityFramework.SqlServer.xml
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLayer.csproj.CopyComplete
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLayer.csproj.CoreCompileInputs.cache

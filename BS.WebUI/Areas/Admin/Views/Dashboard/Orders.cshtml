@@ -1,0 +1,92 @@
+﻿<div class="border-bottom genre-panel">
+    <h1 id="order-title">Order Details - #@ViewBag.OrderId</h1>
+</div>
+<div class="row">
+    <div class="col-12">
+        <form action="#" class="">
+            <!-- Cart Table -->
+            <div class="cart-table table-responsive mb--40">
+                <table class="table">
+                    <!-- Head Row -->
+                    <thead>
+                        <tr>
+                            <th class="pro-thumbnail">Image</th>
+                            <th class="pro-title">Product</th>
+                            <th class="pro-price">Price</th>
+                            <th class="pro-quantity">Quantity</th>
+                            <th class="pro-discount">Discount</th>
+                            <th class="pro-subtotal">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-body">
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row d-flex justify-content-end">
+    <div class="col-lg-6 col-12 d-flex">
+        <div class="cart-summary">
+            <div class="cart-summary-wrap">
+                <h4><span>Cart Summary</span></h4>
+                <h2 style="width: 100%">Total: <span id="total_price" class="text-primary">0</span></h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#dashboard").addClass("active");
+    $.ajax({
+        url: '/api/orders/@ViewBag.OrderId',
+        method: 'GET',
+        contentType: 'application/json'
+    }).done(function (data) {
+        var total_price = 0;
+        $.each(data.BookOrderMetas, function (i, item) {
+            var tr = $("<tr></tr>");
+            var td_pro_thumbnail = $("<td></td>").addClass("pro-thumbnail").attr('align', 'center');
+            var a_thumbnail = $("<a></a>");
+            var image_product = $("<img></img>");
+            var td_pro_title = $("<td></td>").addClass("pro-price");
+            var a_title = $("<a></a>");
+            var td_pro_price = $("<td></td>").addClass("pro-price");
+            var span = $("<span></span>");
+            var td_pro_quantity = $("<td></td>").addClass("pro-quantity");
+            var div_pro_qty = $("<div></div>").addClass("pro-qty");
+            var div_count_input_block = $("<div></div>").addClass("count-input-block");
+            var span_quantity = $("<span></span>").text(item.BookQuantity);
+            var td_discount = $("<td></td>").addClass("discount");
+            var span_discount = $("<span></span>");
+            var td_pro_subtotal = $("<td></td>").addClass("pro-subtotal");
+            var span_pro_subtotal = $("<span></span>");
+            $.ajax({
+                async: false,
+                url: '/api/books/' + item.BookId,
+                method: 'GET',
+                contentType: 'application/json'
+            }).done(function (book) {
+                tr.attr('id', book.BookId);
+                a_thumbnail.attr('href', '/admin/books/' + book.BookId);
+                image_product.attr('src', book.BookImage);
+                a_title.attr('href', '/admin/books/' + book.BookId).text(book.BookName);
+                span.text(formatter.format(book.BookPrice));
+                span_discount.text(book.BookDiscount + "%");
+                var total = book.BookPrice * (100 - book.BookDiscount) / 100 * item.BookQuantity;
+                total_price += total;
+                span_pro_subtotal.text(formatter.format(total) + " đ");
+            });
+            $("#cart-body").append(tr.append(
+                td_pro_thumbnail.append(a_thumbnail.append(image_product)),
+                td_pro_title.append(a_title),
+                td_pro_price.append(span),
+                td_pro_quantity.append(div_pro_qty.append(div_count_input_block.append(span_quantity))),
+                td_discount.append(span_discount),
+                td_pro_subtotal.append(span_pro_subtotal)
+            )
+            );
+        });
+        $("#total_price").text(formatter.format(total_price) + " đ");
+    });
+</script>

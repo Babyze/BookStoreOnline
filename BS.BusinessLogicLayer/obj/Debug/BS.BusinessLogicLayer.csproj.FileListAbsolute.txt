@@ -1,0 +1,15 @@
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Debug\BS.BusinessLogicLayer.csprojAssemblyReference.cache
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\BS.BusinessLogicLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\BS.BusinessLogicLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\BS.BusinessObjectLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\BS.DataAcessLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\EntityFramework.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\BS.BusinessObjectLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\BS.BusinessObjectLayer.dll.config
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\BS.DataAcessLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\BS.DataAcessLayer.dll.config
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Debug\EntityFramework.xml
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Debug\BS.BusinessLogicLayer.csproj.CopyComplete
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Debug\BS.BusinessLogicLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Debug\BS.BusinessLogicLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Debug\BS.BusinessLogicLayer.csproj.CoreCompileInputs.cache

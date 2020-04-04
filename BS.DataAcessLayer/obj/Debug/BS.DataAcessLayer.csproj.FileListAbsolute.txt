@@ -1,0 +1,15 @@
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\obj\Debug\BS.DataAcessLayer.csprojAssemblyReference.cache
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\BS.DataAcessLayer.dll.config
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\BS.DataAcessLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\BS.DataAcessLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\BS.BusinessObjectLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\EntityFramework.dll
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\EntityFramework.SqlServer.dll
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\BS.BusinessObjectLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\BS.BusinessObjectLayer.dll.config
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\EntityFramework.xml
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\bin\Debug\EntityFramework.SqlServer.xml
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\obj\Debug\BS.DataAcessLayer.csproj.CopyComplete
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\obj\Debug\BS.DataAcessLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\obj\Debug\BS.DataAcessLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.DataAcessLayer\obj\Debug\BS.DataAcessLayer.csproj.CoreCompileInputs.cache

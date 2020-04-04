@@ -1,0 +1,60 @@
+﻿<div class="breadcrumb">
+    <div id="breadcrumb-item" class="container">
+        <a class="breadcrumb-item" href="/">Home</a>
+        <span class="breadcrumb-item active">Sale</span>
+    </div>
+</div>
+<section class="static about-sec">
+    <div class="container">
+        <h2 id="title-genre"></h2>
+        <div class="recent-book-sec">
+            <div id="row-book-genre" class="row"></div>
+        </div>
+    </div>
+    <div id="pagination" class="row">
+        <div class="col-md-12">
+            <div class="pagination-block">
+                <ul class="pagination-btns flex-center"></ul>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var books = GetAjax('GET', '/api/books/sale?pageNumber=@ViewBag.Page');
+    books.done(function (data, textStatus, request) {
+        var page_header_string = request.getResponseHeader('x-paging');
+        var pagesHeader = page_header_string.substring(1, page_header_string.length - 1).split(',');
+        var total_book = pagesHeader[0].split(':')[1];
+        var current_page = pagesHeader[1].split(':')[1];
+        var total_page = pagesHeader[2].split(':')[1];
+        var page_size = pagesHeader[3].split(':')[1];
+        var next = pagesHeader[4].split(':')[1].toLowerCase();
+        var previous = pagesHeader[5].split(':')[1].toLowerCase();
+        if (total_book > 0) {
+            $.each(data, function (i, book) {
+                WriteBook(book, "#row-book-genre");
+            });
+        } else {
+            $("#row-book-genre").append("<h3 class='col align-self-center'>There are currently no books.</h3>");
+        }
+        if (total_book < page_size && total_page == 0) {
+            $("#pagination").hide();
+        } else {
+            var first_page = $("<li></li>").attr('id','first').append($("<a></a>").attr('href', "/sale?page=1").addClass('single-btn prev-btn').append("|<i class='fas fa-chevron-left'></i>"));
+            var prev_page = $("<li></li>").attr('id', 'prev').append($("<a></a>").addClass(previous == "true" ? "single-btn prev-btn" : "single-btn prev-btn btn disabled").attr('href', current_page == 1 ? "/sale?page=" + current_page : ("/sale?page=" + (parseInt(current_page) - 1))).append("<i class='fas fa-chevron-left'></i>"));
+            var next_page = $("<li></li>").attr('id','next').append($("<a></a>").addClass(next == "true" ? "single-btn next-btn" : "single-btn next-btn btn disabled").attr('href', next == true ? "/sale?page=" + current_page : ("/sale?page=" + (parseInt(current_page) + 1))).append("<i class='fas fa-chevron-right'></i>"));
+            var last_page = $("<li></li>").attr('id','last').append($("<a></a>").attr('href', "/sale?page=" + total_page).addClass('single-btn next-btn').append("<i class='fas fa-chevron-right'></i>|"));
+            $("ul.pagination-btns").append(first_page, prev_page, next_page, last_page);
+            for (i = 1; i <= total_page; i++) {
+                var li = $("<li></li>").addClass(current_page == i ? "active" : "").append($("<a></a>").addClass(current_page == i ? "single-btn active" : "single-btn").attr('href', "/sale?page=" + i).text(i));
+                $("li#next").before(li);
+            }
+        }
+    });
+    $("title").prepend("Sale | ");
+    $("#home-nav").removeClass("active");
+    $("#genre-nav").addClass("active");
+</script>
+
+
+

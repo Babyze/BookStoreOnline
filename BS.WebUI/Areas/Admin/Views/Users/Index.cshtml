@@ -1,0 +1,104 @@
+﻿<div class="row border-bottom genre-panel">
+    <div class="col-xm-3"><h1>Users</h1></div>
+    <div class="col"><a id="add" href="/admin/users/add" class="btn btn-primary">Add New</a></div>
+</div>
+<table id="user-table" class="table table-hover">
+</table>
+<div id="delete-confirm" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="body-content"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-delete-confirm" class="btn btn-primary" data-dismiss="modal">Delete</button>
+                <button type="button" id="btn-close" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#user-table').DataTable({
+        ajax: {
+            url: '/api/users',
+            method: 'GET',
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            },
+            dataSrc: ""
+        },
+        columnDefs: [
+            { "title": "User ID", "targets": 0 },
+            {
+                "title": "User Name", "targets": 1
+            },
+            {
+                "title": "Role", "targets": 2
+            },
+            {
+                "title": "Action", "targets": 3
+            }
+        ],
+        columns: [
+            { "data": "UserId" },
+            {
+                "data": "Username",
+                "render": function (data, type, row, meta) {
+                    return '<a href="/admin/users/' + row.UserId + '"> ' + data + '</a>';
+                }
+            },
+            {
+                "data": "RoleId",
+                "render": function (data, type, row, meta) {
+                    var UserRole = "";
+                    $.ajax({
+                        url: '/api/roles/' + data,
+                        async: false,
+                        method: 'GET',
+                        conentType: 'application/json'
+                    }).done(function (role) {
+                        UserRole = role.RoleName;
+                    });
+                    return UserRole;
+                }
+            },
+            {
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return '<a href="javascript:delete_user_confirm(' + data['UserId']  + ',\'' + row.Username.toString() + '\');" class="delete">Delete</a>';
+                }
+            }
+        ]
+    });
+    function delete_user_confirm(UserId, Username) {
+        var title = "Delete " + Username + " ?";
+        $("#delete-confirm").modal();
+        $(".modal-title").text(title);
+        $("#body-content").text("Do you want delete '" + Username + "' ?");
+        $("#btn-delete-confirm").attr('onclick','ajax_delete(' + UserId + ')')
+    }
+    function ajax_delete(UserId) {
+        $.ajax({
+            url: '/api/users/',
+            method: 'DELETE',
+            contentType: 'application/x-www-form-urlencoded',
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            },
+            data: {
+                UserId: UserId
+            }
+        }).done(function () {
+            $("#user-table").DataTable().ajax.reload();
+        });
+    }
+    
+    $("#users").addClass("active");
+</script>

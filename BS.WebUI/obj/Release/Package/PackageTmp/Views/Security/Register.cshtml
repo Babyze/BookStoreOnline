@@ -1,0 +1,71 @@
+﻿<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="/">Home</a>
+        <span class="breadcrumb-item active">Register</span>
+    </div>
+</div>
+<section class="static about-sec">
+    <div class="container">
+        <h1>My Account / Register</h1>
+        <p>Easy and fast</p>
+        <div class="form">
+            <form id="register-form" onsubmit="ajax_add()">
+                <div class="row">
+                    <div class="col-md-5">
+                        <input id="username" class="form-control" placeholder="Enter User Name" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-md-5">
+                        <input id="password" class="form-control" type="password" placeholder="Password" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <button class="btn black">Register</button>
+                        <h5>Not Registered? <a href="/login">Login here</a></h5>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Successfully</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="body-content">Register Successfully!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ajax_add() {
+        $.ajax({
+            url: '/api/users/',
+            method: 'POST',
+            conentType: 'application/x-www-form-urlencoded',
+            data: {
+                Username: $("#username").val().trim(),
+                Password: $("#password").val(),
+            }
+        }).done(function () {
+            $("#modal").modal('show');
+            $('#modal').on('hidden.bs.modal', function () {
+                window.location.href = "/login";
+            });
+        }).fail(function () {
+            $(".modal-title").text("Error");
+            $("#body-content").text("Username is exist. Please try again!");
+            $("#modal").modal('show');
+        });
+    }
+    $("#register-form").submit(function () { return false; });
+</script>

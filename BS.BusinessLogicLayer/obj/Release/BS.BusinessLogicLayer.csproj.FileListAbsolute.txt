@@ -1,0 +1,15 @@
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\BS.BusinessLogicLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\BS.BusinessLogicLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\BS.BusinessObjectLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\BS.DataAcessLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\EntityFramework.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\BS.BusinessObjectLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\BS.BusinessObjectLayer.dll.config
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\BS.DataAcessLayer.pdb
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\BS.DataAcessLayer.dll.config
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\bin\Release\EntityFramework.xml
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Release\BS.BusinessLogicLayer.csprojAssemblyReference.cache
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Release\BS.BusinessLogicLayer.csproj.CoreCompileInputs.cache
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Release\BS.BusinessLogicLayer.csproj.CopyComplete
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Release\BS.BusinessLogicLayer.dll
+E:\Learn\C#\BookStoreOnline\BS.BusinessLogicLayer\obj\Release\BS.BusinessLogicLayer.pdb

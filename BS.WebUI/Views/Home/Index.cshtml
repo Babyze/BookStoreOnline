@@ -1,0 +1,112 @@
+﻿<!-- Slide -->
+<section class="slider">
+    <div class="container">
+        <div id="owl-demo" class="owl-carousel owl-theme">
+            <div class="item">
+                <div class="slide">
+                    <img src="/images/slide1.jpg" alt="slide1">
+                    <div class="content">
+                        <div class="title">
+                            <h3>welcome to bookstore</h3>
+                            <h5>Discover the best books online with us</h5>
+                            <a href="/genres/" class="btn">shop books</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="slide">
+                    <img src="/images/slide2.jpg" alt="slide1">
+                    <div class="content">
+                        <div class="title">
+                            <h3>welcome to bookstore</h3>
+                            <h5>Discover the best books online with best deal</h5>
+                            <a href="/sale" class="btn">Sale</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Sale -->
+<section class="recomended-sec">
+    <div class="container">
+        <div class="title">
+            <h2>Best Price</h2>
+            <hr>
+        </div>
+        <div id="row-sale" class="row"></div>
+        <div class="btn-sec">
+            <a href="/sale" class="btn gray-btn">view all deals</a>
+        </div>
+    </div>
+</section>
+<!-- About -->
+<section class="about-sec" id="about-us">
+    <div class="about-img">
+        <figure style="background:url(/images/about-img.jpg)no-repeat;"></figure>
+    </div>
+    <div class="about-content">
+        <h2>About bookstore,</h2>
+        <p>Book Store is the world’s largest site for buy book. Our mission is to help people find and share books they love. Book Store launched in March 2020.</p>
+        <p>Love ya,</p>
+        <p>Dang Huynh Anh</p>
+    </div>
+</section>
+<!-- Some Product -->
+<section class="recent-book-sec">
+    <div class="container">
+        <div class="title">
+            <h2>New & Just Arrived</h2>
+            <hr>
+        </div>
+        <div id="row-some-product" class="row"></div>
+        <div class="btn-sec">
+            <a href="/genres/" class="btn gray-btn">view all books</a>
+        </div>
+    </div>
+</section>
+    <!-- Safe -->
+    <section class="features-sec">
+        <div class="container">
+            <ul>
+                <li>
+                    <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                    <h3>SAFE SHOPPING</h3>
+                    <h5>Safe Shopping Guarantee</h5>
+                    <h6>We don't share your data for anyone</h6>
+                </li>
+                <li>
+                    <span class="icon return"><i class="fa fa-reply-all" aria-hidden="true"></i></span>
+                    <h3>30- DAY RETURN</h3>
+                    <h5>Easy refund</h5>
+                    <h6>Full refund within 30 days of shipment date</h6>
+                </li>
+                <li>
+                    <span class="icon chat"><i class="fa fa-comments" aria-hidden="true"></i></span>
+                    <h3>24/7 SUPPORT</h3>
+                    <h5>online Consultations</h5>
+                    <h6>We always online to support you</h6>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <script>
+        var sale_list = GetAjax('GET', '/api/books/sale?PageNumber=1');
+        sale_list.done(function (data) {
+            $.each(data, function (i, book) {
+                if (i < 4) {
+                    WriteBook(book, "#row-sale");
+                } else {
+                    return false;
+                }
+            });
+        var some_book = GetAjax('GET', '/api/books/');
+        some_book.done(function (data) {
+                $.each(data, function (i, book) {
+                    WriteBook(book, "#row-some-product");
+                })
+            });
+        });
+    </script>

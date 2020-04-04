@@ -1,0 +1,114 @@
+﻿<div class="row border-bottom genre-panel">
+    <div class="col-xm-3"><h1>Books</h1></div>
+    <div class="col"><a href="books/add" class="btn btn-primary">Add New</a></div>
+</div>
+<table id="genre-table" class="table table-hover">
+</table>
+<div id="delete-confirm" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="body-content"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-delete-confirm" class="btn btn-primary" data-dismiss="modal">Delete</button>
+                <button type="button" id="btn-close" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ajax_delete(BookID) {
+        $.ajax({
+            url: '/api/books/',
+            method: 'DELETE',
+            contentType: 'application/x-www-form-urlencoded',
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            },
+            data: {
+                BookId: BookID
+            }
+        }).done(function () {
+            $("#genre-table").DataTable().ajax.reload();
+        });
+    }
+    function ajax_total_book() {
+        $.ajax({
+            url: '/api/books/',
+            method: 'GET',
+            contentType: 'application/json',
+            success: function (data, textStatus, request) {
+                var page_header_string = request.getResponseHeader('x-paging');
+                var pagesHeader = page_header_string.substring(1, page_header_string.length - 1).split(',');
+                var total_book = pagesHeader[0].split(':')[1];
+                $('#genre-table').DataTable({
+                    ajax: {
+                        url: '/api/books/?pageSize=' + total_book,
+                        method: 'GET',
+                        dataSrc: ""
+                    },
+                    columnDefs: [
+                        { "title": "Book ID", "targets": 0 },
+                        {
+                            "title": "Book Name", "targets": 1,
+                        },
+                        {
+                            "title": "Book Genre", "targets" : 2,
+                        },
+                        {
+                            "title": "Action", "targets" : 3,
+                        }
+                    ],
+                    columns: [
+                        { "data": "BookId" },
+                        {
+                            "data": "BookName",
+                            "render": function (data, type, row, meta) {
+                                return '<a href="/admin/books/' + row.BookId + '"> ' + data + '</a>';
+                            }
+                        },
+                        {
+                            "data": "GenreId",
+                            "render": function (data, type, row, meta) {
+                                var genres = "";
+                                $.ajax({
+                                    url: '/api/genres/' + data,
+                                    async: false,
+                                    method: 'GET',
+                                    conentType: 'application/json'
+                                }).done(function (genre) {
+                                    genres = genre.GenreName;
+                                });
+                                return genres;
+                            }
+                            
+                        },
+                        {
+                            "data": null,
+                            "render": function (data, type, row, meta) {
+                                return '<a href="javascript:delete_genre_confirm(' + data['BookId']  + ',\'' + row.BookName.toString() + '\');" class="delete">Delete</a>';
+                            }
+                        }
+                    ]
+                }).column(0).order('desc');
+            }
+        })
+    }
+    
+    function delete_genre_confirm(BookID, BookName) {
+        var title = "Delete " + BookName + " ?";
+        $("#delete-confirm").modal();
+        $(".modal-title").text(title);
+        $("#body-content").text("Do you want delete '" + BookName + "' book?");
+        $("#btn-delete-confirm").attr('onclick','ajax_delete(' + BookID + ')')
+    }
+    ajax_total_book();
+    $("#books").addClass("active");
+</script>

@@ -1,0 +1,163 @@
+﻿<header>
+    <div class="header-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Free Shipping Over $99 + 3 Free Samples With Every Order</h5>
+                </div>
+                <div class="col-md-6">
+                    <span class="ph-number">Call : +841 2345 6789</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-menu">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="logo"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li id="home-nav" class="navbar-item active">
+                            <a href="/" class="nav-link">Home</a>
+                        </li>
+                        <li id="genre-nav" class="nav-item dropdown megamenu-li">
+                            <a class="nav-link dropdown-toggle" href="" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Genre</a>
+                            <div class="dropdown-menu megamenu" aria-labelledby="dropdown01">
+                                <div id="row-category" class="row">
+
+                                </div>
+                            </div>
+                        </li>
+                        <li id="about-nav" class="navbar-item">
+                            <a href="/#about-us" class="nav-link">About</a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            string name = User.Identity.Name;
+                            name = name.Substring(0, 1).ToUpper() + name.Substring(1);
+                            <li id="profile-nav" class="navbar-item">
+                                <a href="/profile" class="nav-link">Hi, @name</a>
+                            </li>
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li id="admin-nav" class="navbar-item">
+                                    <a href="/Admin" class="nav-link">Admin</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="navbar-item">
+                                <a id="login-nav" href="/login" class="nav-link">Login</a>
+                            </li>
+                            <li id="faq-nav" class="navbar-item">
+                                <a id="register" href="/register" class="nav-link">Register</a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="cart my-2 my-lg-0">
+                        <span>
+                            <a href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        </span>
+                        <span class="quntity" id="quantity">0</span>
+                    </div>
+                    <form class="form-inline my-2 my-lg-0" method="GET" action="/search">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search here..." aria-label="Search" name="BookName">
+                        <span class="fa fa-search"></span>
+                        <input type="submit" style="visibility: hidden; width: 0;"/>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<script>
+    function GetAjax(method, url) {
+            return $.ajax({
+                method: method,
+                url: url,
+                dataType: 'json',
+                contentType: 'application/json'
+            });
+    }
+    var category = GetAjax('GET', "/api/genres/");
+    category.done(function (genre) {
+        var total_genre = genre.length;
+        $.each(genre, function (i, genre) {
+            var div_col = $("<div></div>").addClass("col-sm-6 col-lg-3");
+            var a_dropdown_item = $("<a></a>").addClass("dropdown-item").attr('href', '/genres/' + genre.GenreId).append(genre.GenreName);
+            if (i % 8 === 0) {
+                $("#row-category").append(div_col);
+            }
+            $("#row-category").children().last().append(a_dropdown_item);
+        });
+        $("#row-category").children().last().append($("<a></a>").addClass("dropdown-item").attr('href', '/genres/').append("All Books"));
+    });
+    function ajax_cart() {
+        $.ajax({
+            url: '/api/carts/',
+            method: 'GET',
+            contentType: 'application/json'
+        }).done(function (data) {
+            var quantity;
+            if (data == null) {
+                quantity = 0;
+            } else {
+                quantity = data.length;
+            }
+            $("#quantity").text(quantity);
+        });
+    }
+    function add_cart(book_id) {
+        $.ajax({
+            url: '/api/carts/',
+            method: 'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            data: {
+                BookId: book_id
+            }
+        }).done(function () {
+            ajax_cart();
+        });
+    }
+    function buy_now(book_id) {
+        add_cart(book_id);
+        window.location.href = "/cart";
+    }
+    function WriteBook(book, row_id) {
+        var div_col = $("<div></div>").addClass("col-lg-3").addClass("col-md-6");
+        var div_item = $("<div></div>").addClass("product-card");
+        var h3 = $("<h3></h3>").append(book.BookName);
+        var h6 = $("<h6></h6>");
+        var img = $("<img></img>").attr('src', book.BookImage);
+        var del_old_price = $("<del></del>").addClass("old-price");
+        if (book.BookDiscount > 0) {
+            price = formatter.format(book.BookPrice * (100 - book.BookDiscount) / 100) + "đ";
+            del_old_price.append(formatter.format(book.BookPrice) + "đ");
+        } else {
+            price = formatter.format(book.BookPrice) + "đ";
+        }
+        var span_price = $("<span></span>").addClass("price").append(price);
+        var div_hover_contents = $("<div></div>").addClass("hover-contents");
+        var div_hover_btns = $("<div></div>").addClass("hover-btns");
+        var a_href_single_btn = $("<a></a>").addClass("single-btn");
+        var i_fas = $("<i></i>");
+        $(row_id).append(div_col
+            .append(div_item
+                .append(img, h3, h6.append(span_price, del_old_price), div_hover_contents
+                    .append(div_hover_btns
+                        .append(a_href_single_btn.clone().attr('href', 'javascript:add_cart(' + book.BookId + ')').append(i_fas.clone().addClass("fas fa-cart-plus")),
+                            a_href_single_btn.clone().attr('href', '/books/' + book.BookId).append(i_fas.clone().addClass("fas fa-eye")),
+                            a_href_single_btn.clone().attr('href', 'javascript:buy_now(' + book.BookId + ')').append(i_fas.clone().addClass("fas fa-shopping-cart"))
+                        )
+                    )
+                )
+            )
+        );
+    }
+    var formatter = new Intl.NumberFormat('vn-VN');
+    ajax_cart();
+</script>

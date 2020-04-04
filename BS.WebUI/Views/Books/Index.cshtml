@@ -1,0 +1,74 @@
+﻿<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="/">Home</a>
+    </div>
+</div>
+<section class="product-sec">
+    <div class="container">
+        <h1 id="title"></h1>
+        <div class="row">
+            <div class="col-md-6 slider-sec">
+                <img class="book-image d-flex justify-content-center" alt="Book Image"/>
+            </div>
+            <div id="description-content" class="col-md-6 slider-content">
+                <p id="description"></p>
+                <ul id="price">
+                    <li>
+                        <span class="name">Original Price</span><span class="clm">:</span>
+                        <span id ="original-price" class="price"> đ</span>
+                    </li>
+                    <li>
+                        <span class="name">Discount</span><span class="clm">:</span>
+                        <span id="discount-rate" class="discount">%</span>
+                    </li>
+                    <li>
+                        <span class="name">Price</span><span class="clm">:</span>
+                        <span id="total-price" class="price final"> đ</span>
+                    </li>
+                </ul>
+                <div class="btn-sec">
+                    <a id="button-add" href="#" class="btn">Add To cart</a>
+                    <a id="button-buy" href="#" class="btn black">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="related-books">
+    <div class="container">
+        <h2>You may also like these book</h2>
+        <div class="recomended-sec">
+            <div id="recommend_books" class="row"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var book = GetAjax('GET', '/api/books/@ViewBag.BookId');
+    book.done(function (book) {
+        if (book != null) {
+            $("#title").append(book.BookName);
+            $(".book-image").attr('src', book.BookImage);
+            $("#description").append(book.BookDescription);
+            $("#original-price").prepend(formatter.format(book.BookPrice));
+            $("#discount-rate").prepend(book.BookDiscount);
+            $("#total-price").prepend(formatter.format(book.BookPrice * (100 - book.BookDiscount) / 100));
+            recommend_books = GetAjax('GET', '/api/books?PageSize=4');
+            recommend_books.done(function (data) {
+                $.each(data, function (i, book) {
+                    WriteBook(book, "#recommend_books");
+                })
+            });
+            genre = GetAjax('GET', '/api/genres/' + book.GenreId);
+            genre.done(function (data) {
+                var span_genre = $("<a></a>").addClass("breadcrumb-item").append(data.GenreName).attr('href','/genres/' + book.GenreId);
+                var span_current_book = $("<span></span>").addClass("breadcrumb-item active").append(book.BookName);
+                $("div.breadcrumb div.container").append(span_genre,span_current_book);
+            });
+            $("#button-add").attr('href', 'javascript:add_cart(' + book.BookId + ')');
+            $("#button-buy").attr('href', 'javascript:buy_now(' + book.BookId + ')');
+        } else {
+            window.location.href = "@Url.Action("Index", "Genres")";
+        }
+    });
+</script>

@@ -1,0 +1,96 @@
+﻿<div class="breadcrumb">
+    <div id="breadcrumb-item" class="container">
+        <a class="breadcrumb-item" href="/">Home</a>
+        <a class="breadcrumb-item active" href="/search">Search</a>
+    </div>
+</div>
+<section class="static about-sec">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form method="get" action="/search">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <small id="book-name-caption" class="form-text text-muted">Find your dream book</small>
+                                <input type="text" name="BookName" class="form-control" id="book-name" placeholder="Enter Book Name">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary float-right" tpye="submit">SEARCH</button>
+                </form>
+            </div>
+        </div>
+        <h4 id="total-book"></h4>
+        <h2 id="title-genre"></h2>
+        <div class="recent-book-sec">
+            <div id="row-book-genre" class="row"></div>
+        </div>
+    </div>
+    <div id="pagination">
+        <div class="col-md-12">
+            <div class="pagination-block">
+                <ul class="pagination-btns flex-center"></ul>
+            </div>
+        </div>
+    </div>
+</section>
+@ViewBag.Page
+<script>
+    function GetAjax(method, url) {
+        return $.ajax({
+            method: method,
+            url: url,
+            contentType: 'application/json',
+            async: false
+        });
+    }
+    var BookName = "@ViewBag.BookName";
+    var url;
+    var title;
+    if (BookName.length == 0) {
+        title = "All Books";
+        url = '/api/books/?PageNumber=@ViewBag.Page';
+    } else {
+        title = BookName;
+        url = '/api/books/search?BookName=' + BookName + '&pageNumber=@ViewBag.Page';
+        $("#book-name").val(BookName);
+    }
+    var books = GetAjax('GET', url);
+    books.done(function (data, textStatus, request) {
+        var page_header_string = request.getResponseHeader('x-paging');
+        var pagesHeader = page_header_string.substring(1, page_header_string.length - 1).split(',');
+        var total_book = pagesHeader[0].split(':')[1];
+        var current_page = pagesHeader[1].split(':')[1];
+        var total_page = pagesHeader[2].split(':')[1];    
+        var page_size = pagesHeader[3].split(':')[1];
+        var next = pagesHeader[4].split(':')[1].toLowerCase();
+        var previous = pagesHeader[5].split(':')[1].toLowerCase();
+        console.log(total_book);
+        if (total_book > 0) {
+            $.each(data, function (i, book) {
+                WriteBook(book, "#row-book-genre");
+            });
+            $("#total-book").append("Total Book: " + total_book);
+        } else {
+            $("#row-book-genre").append("<h3 class='col align-self-center'>There are currently no books.</h3>");
+        }
+        if (total_book < page_size && total_page == 0) {
+            $("#pagination").hide();
+        } else {
+            var first_page = $("<li></li>").attr('id','first').append($("<a></a>").attr('href', "/search?BookName=" + BookName + "&page=" + 1).addClass('single-btn prev-btn').append("|<i class='fas fa-chevron-left'></i>"));
+            var prev_page = $("<li></li>").attr('id','prev').append($("<a></a>").addClass(previous == "true" ? "single-btn prev-btn" : "single-btn prev-btn btn disabled").attr('href', current_page == 1 ? "/search?BookName=" + BookName + "&page=" + current_page : ("/search?BookName=" + BookName + "&page=" + (parseInt(current_page) - 1))).append("<i class='fas fa-chevron-left'></i>"));
+            var next_page = $("<li></li>").attr('id','next').append($("<a></a>").addClass(next == "true" ? "single-btn next-btn" : "single-btn next-btn btn disabled").attr('href', next == true ? "/search?BookName=" + BookName + "&page=" + current_page : ("/search?BookName=" + BookName + "&page=" + (parseInt(current_page) + 1))).append("<i class='fas fa-chevron-right'></i>"));
+            var last_page = $("<li></li>").attr('id','last').append($("<a></a>").attr('href', "/search?BookName=" + BookName + "&page=" + total_page).addClass('single-btn next-btn').append("<i class='fas fa-chevron-right'></i>|"));
+            $("ul.pagination-btns").append(first_page, prev_page, next_page, last_page);
+            for (i = 1; i <= total_page; i++) {
+                var li = $("<li></li>").addClass(current_page == i ? "active" : "").append($("<a></a>").addClass(current_page == i ? "single-btn active" : "single-btn").attr('href', "/search?BookName=" + BookName + "&page=" + i).text(i));
+                $("li#next").before(li);
+            }
+        }
+    });
+    $("title").prepend(title + " | ");
+    $("#breadcrumb-item").append("<span class='breadcrumb-item'>" + title + "</span>");
+    $("#home-nav").removeClass("active");
+    $("#genre-nav").addClass("active");
+</script>

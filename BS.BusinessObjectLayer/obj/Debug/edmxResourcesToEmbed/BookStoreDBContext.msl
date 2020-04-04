@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BookStoreOnlineModelStoreContainer" CdmEntityContainer="BookStoreOnlineEntities">
+    <EntitySetMapping Name="Books">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.Book">
+        <MappingFragment StoreEntitySet="Book">
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="BookName" ColumnName="BookName" />
+          <ScalarProperty Name="BookDescription" ColumnName="BookDescription" />
+          <ScalarProperty Name="BookInstock" ColumnName="BookInstock" />
+          <ScalarProperty Name="BookSold" ColumnName="BookSold" />
+          <ScalarProperty Name="BookPrice" ColumnName="BookPrice" />
+          <ScalarProperty Name="BookDiscount" ColumnName="BookDiscount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookImages">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookImage">
+        <MappingFragment StoreEntitySet="BookImage">
+          <ScalarProperty Name="BookImageId" ColumnName="BookImageId" />
+          <ScalarProperty Name="BookImageUrl" ColumnName="BookImageUrl" />
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookOrders">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookOrder">
+        <MappingFragment StoreEntitySet="BookOrder">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookOrderMetas">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookOrderMeta">
+        <MappingFragment StoreEntitySet="BookOrderMeta">
+          <ScalarProperty Name="OrderMetaId" ColumnName="OrderMetaId" />
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="BookImageId" ColumnName="BookImageId" />
+          <ScalarProperty Name="BookQuantity" ColumnName="BookQuantity" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookUsers">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookUser">
+        <MappingFragment StoreEntitySet="BookUser">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Genres">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.Genre">
+        <MappingFragment StoreEntitySet="Genre">
+          <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+          <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WebiteOptions">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.WebiteOption">
+        <MappingFragment StoreEntitySet="WebiteOption">
+          <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+          <ScalarProperty Name="OptionName" ColumnName="OptionName" />
+          <ScalarProperty Name="OptionValue" ColumnName="OptionValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BookGenre" TypeName="BookStoreOnlineModel.BookGenre" StoreEntitySet="BookGenre">
+      <EndProperty Name="Book">
+        <ScalarProperty Name="BookId" ColumnName="BookId" />
+      </EndProperty>
+      <EndProperty Name="Genre">
+        <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

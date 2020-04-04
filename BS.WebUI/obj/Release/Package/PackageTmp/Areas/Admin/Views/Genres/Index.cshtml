@@ -1,0 +1,96 @@
+﻿<div class="row border-bottom genre-panel">
+    <div class="col-xm-3"><h1>Genres</h1></div>
+    <div class="col"><a href="genres/add" class="btn btn-primary">Add New</a></div>
+</div>
+<table id="genre-table" class="table table-hover">
+
+</table>
+<div id="delete-confirm" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="body-content"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-delete-confirm" class="btn btn-primary" data-dismiss="modal">Delete</button>
+                <button type="button" id="btn-close" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ajax_delete(GenreID) {
+        $.ajax({
+            url: '/api/genres/',
+            method: 'DELETE',
+            contentType: 'application/x-www-form-urlencoded',
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            },
+            data: {
+                GenreId: GenreID
+            }
+        }).done(function () {
+            $("#genre-table").DataTable().ajax.reload();
+        });
+    }
+
+    function get_total_book(GenreID) {
+        $.ajax({
+            url: '/api/books/genres/' + GenreID,
+            method: 'GET',
+            contentType: 'application/json',
+            success: function (data, textStatus, request) {
+                var page_header_string = request.getResponseHeader('x-paging');
+                var pagesHeader = page_header_string.substring(1, page_header_string.length - 1).split(',');
+                var total_book = pagesHeader[0].split(':')[1];
+                var total_book_message = total_book > 0 ? "(contain " + total_book + " books)" : "";
+                $("#body-content").text("Do you want delete this genre? " + total_book_message);
+            }
+        });
+    }
+
+    function delete_genre_confirm(GenreID, GenreName) {
+        var title = "Delete " + GenreName + " ?";
+        $("#delete-confirm").modal();
+        $(".modal-title").text(title);
+        get_total_book(GenreID);
+        $("#btn-delete-confirm").attr('onclick','ajax_delete(' + GenreID + ')')
+    }
+
+    var table = $('#genre-table').DataTable({
+        ajax: {
+            url: '/api/genres',
+            method: 'GET',
+            dataSrc: ""
+        },
+        columnDefs: [
+            { "title": "Genre ID", "targets": 0 },
+            {
+                "title": "Genre Name", "targets": 1,
+            }
+        ],
+        columns: [
+            { "data": "GenreId" },
+            {
+                "data": "GenreName",
+                "render": function (data, type, row, meta) {
+                    return '<a href="/admin/genres/' + row.GenreId + '"> ' + data + '</a>';
+                }
+            },
+            {
+                "data": null,
+                "render": function (data, type, row, meta) {
+                    return '<a href="javascript:delete_genre_confirm(' + data['GenreId']  + ',\'' + row.GenreName.toString() + '\');" class="delete">Delete</a>';
+                }
+            }
+        ]
+    }).column(0).order('desc');
+    $("#genres").addClass("active");
+</script>

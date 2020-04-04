@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BookStoreOnlineModelStoreContainer" CdmEntityContainer="BookStoreOnlineEntities">
+    <EntitySetMapping Name="Books">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.Book">
+        <MappingFragment StoreEntitySet="Book">
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="BookName" ColumnName="BookName" />
+          <ScalarProperty Name="BookDescription" ColumnName="BookDescription" />
+          <ScalarProperty Name="BookImage" ColumnName="BookImage" />
+          <ScalarProperty Name="BookPrice" ColumnName="BookPrice" />
+          <ScalarProperty Name="BookDiscount" ColumnName="BookDiscount" />
+          <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookGenres">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookGenre">
+        <MappingFragment StoreEntitySet="BookGenre">
+          <ScalarProperty Name="GenreId" ColumnName="GenreId" />
+          <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookOrders">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookOrder">
+        <MappingFragment StoreEntitySet="BookOrder">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookOrderMetas">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookOrderMeta">
+        <MappingFragment StoreEntitySet="BookOrderMeta">
+          <ScalarProperty Name="OrderMetaId" ColumnName="OrderMetaId" />
+          <ScalarProperty Name="BookId" ColumnName="BookId" />
+          <ScalarProperty Name="BookQuantity" ColumnName="BookQuantity" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookRoles">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookRole">
+        <MappingFragment StoreEntitySet="BookRole">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookUsers">
+      <EntityTypeMapping TypeName="BookStoreOnlineModel.BookUser">
+        <MappingFragment StoreEntitySet="BookUser">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

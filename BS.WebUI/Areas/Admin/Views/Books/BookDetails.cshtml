@@ -1,0 +1,186 @@
+﻿<div class="border-bottom genre-panel">
+    <h1>Book Details</h1>
+</div>
+<div class="row add">
+    <div class="col-md-6">
+        <div class="col-md">
+            <form method="post" id="image-form">
+                <input id="image" type="file" name="img[]" class="file" accept="image/*">
+                <div class="input-group my-3">
+                    <input type="text" class="form-control" disabled placeholder="Upload Image" id="file">
+                    <div class="input-group-append">
+                        <button type="button" class="browse btn btn-primary">Browse...</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md">
+            <label for="preview">Image Preview</label>
+            <img src="~/Images/Uploads/default.jpg" id="preview" class="img-thumbnail">
+        </div>
+    </div>
+    <div class="col-md">
+        <form class="needs-validation" id="book-information" novalidate>
+            <div class="form-group">
+                <label for="book-name">Book Name</label>
+                <input type="text" class="form-control" id="book-name" placeholder="Enter Book Name" required>
+                <div class="invalid-feedback">
+                    Please enter book name.
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="book-genre">Genre</label>
+                <select class="form-control" id="book-genre">
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="book-description">Book Description</label>
+                <textarea class="form-control" id="book-description" placeholder="Enter email" rows="3"> </textarea>
+            </div>
+            <div class="form-group">
+                <label for="book-price">Book Price</label>
+                <input type="number" class="form-control" id="book-price" placeholder="Enter Book Price" required>
+                <div class="invalid-feedback">
+                    Please enter book price.
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="book-discount">Discount</label>
+                <select class="form-control" id="book-discount">
+                </select>
+            </div>
+            <div class="text-right">
+                <button id="update-book" type="submit" class="btn btn-primary">Update</button>
+                <a href="/admin/books" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Successfully</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Update book successfully.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function load_book() {
+        $.ajax({
+            url: '/api/books/@ViewBag.BookId',
+            method: 'GET',
+            contentType: 'application/json',
+        }).done(function (data) {
+            if (data.BookImage != null) {
+                $("#preview").attr('src', data.BookImage);
+            }
+            $("#book-name").val(data.BookName);
+            $("#book-genre").val(data.GenreId);
+            $("#book-description").val(data.BookDescription);
+            $("#book-quantity").val(data.BookInstock);
+            $("#book-price").val(data.BookPrice);
+            $("#book-discount").val(data.BookDiscount);
+        });
+    }
+    function ajax_genre() {
+        $.ajax({
+            url: '/api/genres',
+            method: 'GET',
+            contentType: 'application/json',
+        }).done(function (genres) {
+            $.each(genres, function (i, genre) {
+                var option = $("<option></option>").attr('value',genre.GenreId).append(genre.GenreName);
+                $("#book-genre").append(option);
+            });
+        });
+    }
+    function load_discount() {
+        for (i = 0; i <= 100; i++) {
+            var option = $("<option></option>").attr('value', i).append(i + " %");
+            $("#book-discount").append(option);
+        }
+    }
+    function ajax_add() {
+        var formData = new FormData();
+        formData.append("file", $("#image")[0].files[0]);
+        formData.append("BookId", @ViewBag.BookId);
+        formData.append("BookName", $("#book-name").val().trim());
+        formData.append("GenreId", $("#book-genre").val());
+        formData.append("BookDescription", $("#book-description").val());
+        formData.append("BookPrice", $("#book-price").val());
+        formData.append("BookDiscount", $("#book-discount").val());
+        $.ajax({
+            url: '/api/books/',
+            method: 'PUT',
+            headers: {
+                Authorization: window.localStorage.getItem("token")
+            },
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false
+        }).done(function () {
+            $("#modal").modal('show');
+                $('#modal').on('hidden.bs.modal', function () {
+                    window.location.href = "/admin/books";
+                });
+        });
+    }
+    function main() {
+        ajax_genre();
+        load_discount();
+        load_book();
+    }
+    main();
+    $("#update-book").click(function () {
+        ajax_add();
+        console.log("Work");
+    });
+    $("#book-information").submit(function () { return false; });
+    $("#image-form").submit(function () { return false; });
+    $("#books").addClass("active");
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+$(document).on("click", ".browse", function() {
+    var file = $(this).parents().find(".file");
+    file.trigger("click");
+});
+$('input[type="file"]').change(function(e) {
+    var fileName = e.target.files[0].name;
+    $("#file").val(fileName);
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("preview").src = e.target.result;
+    };
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+});
+</script>

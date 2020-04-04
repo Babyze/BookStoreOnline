@@ -1,0 +1,71 @@
+﻿<section class="recomended-sec">
+    <div class="container">
+        <div class="row text-left">
+            <div class="col-md-3">
+                <div class="list-group">
+                    <a id="admin" href="#" class="list-group-item list-group-item-action disabled">
+                        <h3>User Panel</h3>
+                    </a>
+                    <a id="dashboard" href="/profile/" class="list-group-item list-group-item-action active">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a id="slides" href="/profile/password" class="list-group-item list-group-item-action">
+                        <i class="fas fa-unlock-alt"></i> Change Password
+                    </a>
+                    <a id="genres" href="/profile/logout" class="list-group-item list-group-item-action">
+                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                    </a>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="row border-bottom genre-panel">
+                    <div class="col-xm-3"><h2>My Orders</h2></div>
+                </div>
+                <table id="orders-table" class="table table-hover">
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $("#home-nav").removeClass("active");
+    $("#profile-nav").addClass("active");
+    $('#orders-table').DataTable({
+        ajax: {
+            url: '/api/orders/users/@ViewBag.UserId',
+            method: 'GET',
+            dataSrc: ""
+        },
+        columnDefs: [
+            { "title": "# Order ID", "targets": 0 },
+            {
+                "title": "Date", "targets": 1
+            },
+            {
+                "title": "Total", "targets": 2
+            }
+        ],
+        columns: [
+            {
+                "data": "OrderId",
+                "render": function (data) {
+                    return '<a href="/profile/orders/' + data + '">' + data + '</a>';
+                }
+            },
+            {
+                "data": "OrderDate",
+                "render": function (data, type, row, meta) {
+                    var date = new Date(data);
+                    return '<a href="/profile/orders/' + row.OrderId + '"> ' + date.toLocaleDateString() + '</a>';
+                }
+            },
+            {
+                "data": "Total",
+                "render": function (data) {
+                    return formatter.format(data) + " đ";
+                }
+            }
+        ]
+    }).column(0).order('desc');
+</script>

@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BookStoreOnlineModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="BookId" />
+    </Key>
+    <Property Name="BookId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="BookDescription" Type="nvarchar" MaxLength="2000" />
+    <Property Name="BookImage" Type="varchar" MaxLength="500" />
+    <Property Name="BookPrice" Type="money" />
+    <Property Name="BookDiscount" Type="int" />
+    <Property Name="GenreId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BookGenre">
+    <Key>
+      <PropertyRef Name="GenreId" />
+    </Key>
+    <Property Name="GenreId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GenreName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BookOrder">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Total" Type="float" />
+    <Property Name="OrderDate" Type="date" />
+  </EntityType>
+  <EntityType Name="BookOrderMeta">
+    <Key>
+      <PropertyRef Name="OrderMetaId" />
+    </Key>
+    <Property Name="OrderMetaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookId" Type="int" Nullable="false" />
+    <Property Name="BookQuantity" Type="int" Nullable="false" />
+    <Property Name="OrderId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BookRole">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="BookUser">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__BookOrder__BookI__534D60F1">
+    <End Role="Book" Type="Self.Book" Multiplicity="1" />
+    <End Role="BookOrderMeta" Type="Self.BookOrderMeta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="BookId" />
+      </Principal>
+      <Dependent Role="BookOrderMeta">
+        <PropertyRef Name="BookId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BookOrder__Order__5629CD9C">
+    <End Role="BookOrder" Type="Self.BookOrder" Multiplicity="1" />
+    <End Role="BookOrderMeta" Type="Self.BookOrderMeta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookOrder">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="BookOrderMeta">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BookOrder__UserI__5070F446">
+    <End Role="BookUser" Type="Self.BookUser" Multiplicity="0..1" />
+    <End Role="BookOrder" Type="Self.BookOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookUser">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="BookOrder">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Book_Genre">
+    <End Role="BookGenre" Type="Self.BookGenre" Multiplicity="1" />
+    <End Role="Book" Type="Self.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookGenre">
+        <PropertyRef Name="GenreId" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="GenreId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BookUser_BookRole">
+    <End Role="BookRole" Type="Self.BookRole" Multiplicity="1" />
+    <End Role="BookUser" Type="Self.BookUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BookRole">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="BookUser">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BookStoreOnlineModelStoreContainer">
+    <EntitySet Name="Book" EntityType="Self.Book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookGenre" EntityType="Self.BookGenre" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookOrder" EntityType="Self.BookOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookOrderMeta" EntityType="Self.BookOrderMeta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookRole" EntityType="Self.BookRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BookUser" EntityType="Self.BookUser" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__BookOrder__BookI__534D60F1" Association="Self.FK__BookOrder__BookI__534D60F1">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="BookOrderMeta" EntitySet="BookOrderMeta" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BookOrder__Order__5629CD9C" Association="Self.FK__BookOrder__Order__5629CD9C">
+      <End Role="BookOrder" EntitySet="BookOrder" />
+      <End Role="BookOrderMeta" EntitySet="BookOrderMeta" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BookOrder__UserI__5070F446" Association="Self.FK__BookOrder__UserI__5070F446">
+      <End Role="BookUser" EntitySet="BookUser" />
+      <End Role="BookOrder" EntitySet="BookOrder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Book_Genre" Association="Self.FK_Book_Genre">
+      <End Role="BookGenre" EntitySet="BookGenre" />
+      <End Role="Book" EntitySet="Book" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BookUser_BookRole" Association="Self.FK_BookUser_BookRole">
+      <End Role="BookRole" EntitySet="BookRole" />
+      <End Role="BookUser" EntitySet="BookUser" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,58 @@
+﻿<div class="breadcrumb">
+    <div class="container">
+        <a class="breadcrumb-item" href="/">Home</a>
+        <span class="breadcrumb-item active">Login</span>
+    </div>
+</div>
+<section class="static about-sec">
+    <div class="container">
+        <h1>My Account / Login</h1>
+        <p>You have reached a page that requires authentication, please enter your BookStore account.</p>
+        <div class="form">
+            @if(ViewBag.Error != null)
+            {
+                <div class="col-md-10 alert alert-danger ralert-dismissible fade show" role="alert">
+                    <strong>@ViewBag.Error</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            <form action="/Login" onsubmit="GetToken()" method="POST">
+                <div class="row">
+                    <div class="col-md-5">
+                        <input id="username" name="username" class="form-control" placeholder="Enter User Name" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-md-5">
+                        <input id="password" name="password" class="form-control" type="password" placeholder="Password" required>
+                        <span class="required-star">*</span>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <button class="btn black">Login</button>
+                        <h5>Not Registered? <a href="/register">Register here</a></h5>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    function GetToken() {
+        $.ajax({
+            method: 'POST',
+            url: '/identity/token',
+            contentType: 'application/x-www-form-urlencoded',
+            data: {
+                username: $("#username").val(),
+                password: $("#password").val(),
+                grant_type: 'password'
+            }
+        }).done(function (data) {
+            window.localStorage.setItem('token', data.token_type + " " + data.access_token);
+        });
+    }
+    $("#home-nav").removeClass("active");
+    $("#login-nav").addClass("active");
+</script>
