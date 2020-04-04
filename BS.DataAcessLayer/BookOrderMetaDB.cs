@@ -22,6 +22,13 @@ namespace BS.DataAcessLayer
             Save();
         }
 
+        public void DeleteOrderMetaByBookId(int BookId)
+        {
+            var items = bsoe.BookOrderMetas.Where(i => i.BookId == BookId).ToList();
+            bsoe.BookOrderMetas.RemoveRange(items);
+            Save();
+        }
+
         public void Save()
         {
             bsoe.SaveChanges();

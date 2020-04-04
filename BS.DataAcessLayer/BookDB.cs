@@ -67,14 +67,18 @@ namespace BS.DataAcessLayer
 
         public void Delete(Book book)
         {
+            new BookOrderMetaDB().DeleteOrderMetaByBookId(book.BookId);
             bsoe.Books.Remove(book);
             Save();
         }
 
         public void DeleteBookByGenre(BookGenre genre)
         {
-            var books = bsoe.Books.Where(b => b.GenreId == genre.GenreId);
-            bsoe.Books.RemoveRange(books);
+            var books = bsoe.Books.Where(b => b.GenreId == genre.GenreId).ToList();
+            foreach(var book in books)
+            {
+                Delete(book);
+            }
             Save();
         }
 

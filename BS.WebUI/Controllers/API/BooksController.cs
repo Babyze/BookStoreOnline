@@ -35,7 +35,6 @@ namespace BS.WebUI.Controllers.API
         [HttpGet]
         public IEnumerable<Book> Get([FromUri]PagingParameter pagingParameter)
         {
-            Debug.WriteLine("A2: " + pagingParameter.PageNumber);
             BookPagedListBL BookPagedList = BookBL.GetAll(pagingParameter);
             var pagingMetaData = BookPagedList.PagingMetaData();
             HttpContext.Current.Response.Headers.Add("X-Paging", JsonConvert.SerializeObject(pagingMetaData));
