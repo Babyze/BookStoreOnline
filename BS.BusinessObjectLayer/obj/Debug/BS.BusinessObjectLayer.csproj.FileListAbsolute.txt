@@ -9,3 +9,4 @@ E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLa
 E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLayer.dll
 E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLayer.pdb
 E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLayer.csproj.CoreCompileInputs.cache
+E:\Learn\C#\BookStoreOnline\BS.BusinessObjectLayer\obj\Debug\BS.BusinessObjectLayer.csprojAssemblyReference.cache
